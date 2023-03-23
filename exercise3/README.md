@@ -49,7 +49,7 @@ One you are done defining the properties, fill in the implementation:
 ```kotlin
 @TaskAction
 fun perform() {
-    if (onCi.get()) {
+    if (!onCi.get()) {
         logger.lifecycle("Not on CI machine, skipping...")
         return
     }
@@ -67,6 +67,8 @@ fun perform() {
     }
 
     lockInGains(currentCoverage)
+
+    // Git commit and push here.
 }
 
 private fun createXmlParser(): XmlParser {
@@ -116,7 +118,7 @@ private fun lockInGains(currentCoverage: Float) {
     if (currentCoverage > fileValue) {
         logger.lifecycle("Coverage has increased from: $fileValue to: $currentCoverage")
 
-        if (fileValue == goal.get()) {
+        if (fileValue >= goal.get()) {
             logger.lifecycle("Goal of: " + goal.get().toString() + " already achieved")
             return
         }
