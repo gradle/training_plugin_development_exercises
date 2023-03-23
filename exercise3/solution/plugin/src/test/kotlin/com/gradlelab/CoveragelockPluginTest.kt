@@ -5,10 +5,12 @@ package com.gradlelab
 
 import org.gradle.testfixtures.ProjectBuilder
 import org.gradle.testing.jacoco.tasks.JacocoCoverageVerification
+import org.gradle.testing.jacoco.tasks.JacocoReport
 import org.gradle.testing.jacoco.tasks.rules.JacocoViolationRule
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
+import kotlin.test.assertTrue
 
 /**
  * A simple unit test for the 'com.gradlelab.greeting' plugin.
@@ -31,6 +33,11 @@ class CoveragelockPluginTest {
         val project = ProjectBuilder.builder().build()
         project.plugins.apply("application")
         project.plugins.apply("com.gradlelab.coveragelock")
+
+        assertNotNull(project.plugins.findPlugin("jacoco"))
+
+        val jacocoTask : JacocoReport = project.tasks.named("jacocoTestReport", JacocoReport::class.java).get()
+        assertTrue(jacocoTask.reports.xml.required.get())
 
         val task : JacocoCoverageVerification =
             project.tasks.named("jacocoTestCoverageVerification", JacocoCoverageVerification::class.java).get()

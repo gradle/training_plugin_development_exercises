@@ -48,6 +48,8 @@ abstract class CoverageLockInTask : DefaultTask() {
         }
 
         lockInGains(currentCoverage)
+
+        // Git commit and push here.
     }
 
     private fun createXmlParser(): XmlParser {
@@ -97,7 +99,7 @@ abstract class CoverageLockInTask : DefaultTask() {
         if (currentCoverage > fileValue) {
             logger.lifecycle("Coverage has increased from: $fileValue to: $currentCoverage")
 
-            if (fileValue == goal.get()) {
+            if (fileValue >= goal.get()) {
                 logger.lifecycle("Goal of: " + goal.get().toString() + " already achieved")
                 return
             }

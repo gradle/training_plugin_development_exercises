@@ -22,6 +22,9 @@ class CoveragelockPlugin: Plugin<Project> {
         // Apply the Jacoco plugin if it isn't already applied.
         project.plugins.apply(JacocoPlugin::class.java)
 
+        /*project.pluginManager.withPlugin("jacoco") {
+        }*/
+
         // Configure the Jacoco tasks.
         configureJacoco(project, extension)
 
